@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 引入约束 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 快速入门 ===========================================================================  -->
+	<!-- 配置使用哪个实现类 对  IHelloService 进行实例化-->
+	<!-- 配置实现类HelloServiceImpl，定义 名称   helloService-->
+	<bean id="helloService" class="cn.itcast.spring.a_quickstart.HelloServiceImpl">
+		<!-- helloService 依赖 info属性  -->
+		<!-- 通过property 配置 spring 创建 helloService 对象时，自动调用 setInfo 方法 完成属性注入  -->
+		<property name="info" value="传智播客"></property>
+	</bean>
+	<!-- 快速入门 ===========================================================================  end -->
+	
+	<!-- Bean实例化三种方式 ===========================================================================  -->
+	<!-- id 为Bean定义标识，class是Bean 完整类名，默认调用类 无参数构造器  -->
+<!-- 	<bean id="bean1" class="cn.itcast.spring.b_instance.Bean1"></bean> -->
+	<!-- 静态工厂方法  class是工厂完整类名，factory-method 是工厂提供静态方法 -->
+<!-- 	<bean id="bean2" class="cn.itcast.spring.b_instance.Bean2Factory" factory-method="getBean2"></bean> -->
+	<!-- 实例工厂方法，需要创建工厂实例，再创建目标Bean实例 -->
+<!-- 	<bean id="bean3Factory" class="cn.itcast.spring.b_instance.Bean3Factory"></bean> -->
+<!-- 	<bean name="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean> -->
+	<!-- Bean实例化三种方式  ===========================================================================  end-->
+	
+	<!-- scope取值  =========================================================================== -->
+	<!-- 如果没有指定scope，默认值就是singleton  -->
+<!-- 	<bean id="product" class="cn.itcast.spring.c_scope.Product" scope="prototype"></bean> -->
+	<!-- scope取值  =========================================================================== end-->
+	
+	<!-- Bean的生命周期  =========================================================================== -->
+	<!-- 通过 init-method指定初始化方法， 通过  destroy-method 指定销毁方法 -->
+<!-- 	<bean id="lifeCycleBean" class="cn.itcast.spring.d_lifecycle.LifeCycleBean" init-method="setup" destroy-method="teardown"></bean> -->
+	
+<!-- 	<bean id="userDAO" class="cn.itcast.spring.d_lifecycle.UserDAOImpl" init-method="setup" destroy-method="teardown"> -->
+<!-- 		<property name="company" value="itcast"></property> -->
+<!-- 	</bean> -->
+	<!-- 必须配置后处理Bean , bean没有id 因为由 Spring框架内部调用 -->
+<!-- 	<bean class="cn.itcast.spring.d_lifecycle.MyBeanPostProccessor"></bean> -->
+	<!-- Bean的生命周期  ===========================================================================  end -->
+	
+	<!-- 对象属性注入 ===========================================================================  -->
+	<!-- 构造器注入 -->
+	<bean id="car" class="cn.itcast.spring.e_di.Car">
+		<!-- 通过构造器参数，完成属性注入 -->
+		<constructor-arg index="0" type="java.lang.String" value="保时捷" ></constructor-arg> <!-- 第一个参数 String类型参数 -->
+		<constructor-arg index="1" type="double" value="1000000"></constructor-arg>
+	</bean>
+	<!-- setter方法注入 -->
+<!-- 	<bean id="car2" class="cn.itcast.spring.e_di.Car2"> -->
+		<!-- 通过 property 元素完成属性注入 -->
+<!-- 		<property name="name" value="宝马"></property> -->
+<!-- 		<property name="price" value="500000"></property> -->
+<!-- 	</bean> -->
+	
+	<bean id="car2" class="cn.itcast.spring.e_di.Car2" p:name="宝马" p:price="1000000"></bean>
+	
+<!-- 	<bean id="employee" class="cn.itcast.spring.e_di.Employee"> -->
+<!-- 		<property name="name" value="张三"></property> -->
+<!-- 		<property name="car2" ref="car2"></property> ref引用其他Bean的id或者name -->
+<!-- 	</bean> -->
+	
+	<bean id="employee" class="cn.itcast.spring.e_di.Employee" p:name="李四" p:car2-ref="car2"></bean>
+	
+	<!-- 使用SpEL完成属性注入 -->
+	<bean id="carInfo" class="cn.itcast.spring.e_di.CarInfo"></bean>
+	<bean id="car2_2" class="cn.itcast.spring.e_di.Car2">
+		<property name="name" value="#{carInfo.name}"></property>
+		<property name="price" value="#{carInfo.caculatePrice()}"></property>
+	</bean>
+	
+	<!-- 对象属性注入 ===========================================================================  end-->
+	
+	<import resource="classpath:bean1.xml"/>
+</beans>

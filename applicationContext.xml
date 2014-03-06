@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 引入约束 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 配置使用哪个实现类 对  IHelloService 进行实例化-->
+	<!-- 配置实现类HelloServiceImpl，定义 名称   helloService-->
+	<bean id="helloService" class="cn.itcast.spring.a_quickstart.HelloServiceImpl">
+		<!-- helloService 依赖 info属性  -->
+		<!-- 通过property 配置 spring 创建 helloService 对象时，自动调用 setInfo 方法 完成属性注入  -->
+		<property name="info" value="传智播客(工程根路径)"></property>
+	</bean>
+</beans>
